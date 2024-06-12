@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  direction: rtl;
+  font-family: "Rubik Glitch", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.tShadow_PRIMARY {
+  text-shadow: 0 0 1rem rgba(255, 255, 255, 0.64);
+}
+
+.tShadow_SECONDARY {
+  text-shadow: 0 0 1rem orange;
+}
+
+.transparent-bg {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.rotateSpace {
+  animation: rotateSpace 15s ease-in-out infinite;
+}
+
+@keyframes rotateSpace {
+  0% {
+    transform: rotateX(10deg) rotateY(10deg) rotateZ(-5deg);
+  }
+  50% {
+    transform: rotateX(0) rotateY(0) rotateZ(0);
+  }
+  100% {
+    transform: rotateX(10deg) rotateY(10deg) rotateZ(-5deg);
+  }
+}
