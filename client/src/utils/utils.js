@@ -28,7 +28,7 @@ export const triangleStyles = (upsideDown, height, color) => {
   return `w-0 h-0  border-l-transparent ${
     upsideDown ? "border-b-[7rem]" : `${height || "border-t-[7rem]"} `
   } ${color || ""} ${
-    upsideDown ? `border-b-red-500/20` : `border-t-fuchsia-500/20`
+    upsideDown ? `border-b-red-500/20` : `border-t-cyan-500/20`
   } border-r-transparent`;
 };
 

@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "stars-pattern": "url('./src/assets/stars.gif')",
+        "fireworks-pattern": "url('./src/assets/fireworks.gif')",
+      },
+    },
   },
   plugins: [],
 };

@@ -13,7 +13,7 @@ const GlitchText = ({ children }) => {
         await next({ transform: 'translate3d(0px, 0, 0)', color: '#0000ff' });
       }
     },
-    config: { tension: 100, friction: 50 },
+    config: { tension: 250, friction: 150 },
   });
 
   useChain([glitchRef], [0]);
