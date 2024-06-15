@@ -147,14 +147,13 @@
 @keyframes callAnimation {
   0% {
     outline-offset: 2.1vmin;
-    outline: 2.5vmin dotted white;
+    outline: 1.5vmin dashed rgba(209, 96, 15, 0.126);
   }
   50% {
-    outline-offset: 6vmin;
+    outline-offset: 10vmin;
   }
   100% {
     outline: initial;
-    outline-style: hidden;
   }
 }
 
@@ -178,7 +177,7 @@
 @keyframes memory {
   0%,
   100% {
-    opacity: 1;
+    opacity: .7;
     filter: blur(0);
   }
   50% {

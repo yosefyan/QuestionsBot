@@ -218,14 +218,13 @@
 @keyframes callAnimation {
   0% {
     outline-offset: 2.1vmin;
-    outline: 2.5vmin dotted white;
+    outline: 1.5vmin dashed rgba(209, 96, 15, 0.126);
   }
   50% {
-    outline-offset: 6vmin;
+    outline-offset: 10vmin;
   }
   100% {
     outline: initial;
-    outline-style: hidden;
   }
 }
 .memory {
@@ -246,7 +245,7 @@
 }
 @keyframes memory {
   0%, 100% {
-    opacity: 1;
+    opacity: 0.7;
     filter: blur(0);
   }
   50% {
@@ -295,11 +294,11 @@ body {
 }
 
 .tShadow_PRIMARY {
-  text-shadow: 0 0 1rem rgba(255, 255, 255, 0.64);
+  text-shadow: 0 0 1rem rgba(255, 255, 255, 0.3);
 }
 
 .tShadow_SECONDARY {
-  text-shadow: 0 0 1rem orange;
+  text-shadow: 0 0 1rem black;
 }
 
 @tailwind base;

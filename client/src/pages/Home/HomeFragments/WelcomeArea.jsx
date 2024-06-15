@@ -10,9 +10,7 @@ import zroaaYabasha from "../../../assets/zroaaYabasha.svg";
 const WelcomeArea = () => {
   return (
     <div className={`w-[60%] h-full ${centerItem("")} relative flex-col`}>
-      <div
-        className={`w-full  bg-stars-pattern bg-[length:100%_100%] opacity-40 h-full absolute`}
-      ></div>
+      <div className={`w-full opacity-40 h-full absolute`}></div>
       <div
         className={`w-[45%] h-full absolute ${centerItem("justify-between")}`}
       >
@@ -41,12 +39,14 @@ const WelcomeArea = () => {
       />
       <div className={`w-[60%] h-[40%] ${centerItem("")} gap-4 flex-col`}>
         {Object.entries(home.titles).map(([Key, value], i) => {
-          const titleSize = Key === "h1" ? "text-8xl" : "text-2xl";
+          const titleSize = Key === "h1" ? "text-[10vmin]" : "text-[3vmin]";
           return (
             <React.Fragment key={`homeConstants${i}`}>
               <Key
-                className={`text-white opacity-70 ${
-                  Key === "h3" ? "tShadow_PRIMARY" : "tShadow_SECONDARY"
+                className={`text-white opacity-50 w-full ${
+                  Key === "h3"
+                    ? "tShadow_PRIMARY"
+                    : "bg-gray-500/30 rounded-full tShadow_SECONDARY"
                 } ${titleStyles(titleSize)}`}
               >
                 {Key === "h1" ? (

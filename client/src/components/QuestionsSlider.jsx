@@ -1,106 +1,38 @@
-import { useEffect, useRef, useState } from "react";
-import { buttonStyles, centerItem } from "../utils/utils";
-import TriangleComp from "../components/TriangleComp";
-import { handleScroll } from "../helpers/genericHelpers";
-// import PlanetsComp from "../../PlanetsComp";
+import { centerItem } from "../utils/utils";
 import MainSquare from "./MainSquare";
 import home from "../constants/home";
 import PlanetsComp from "./PlanetsComp";
+import { bgColorsData, textColorsData } from "../constants/colorsData";
 
-const QuestionsSlider = ({
-  inputsState,
-  setInputsState,
-  Icons,
-  currentData,
-  requiredInputs,
-  shouldFloat = false,
-}) => {
-  const [checkbox, setCheckBox] = useState(false);
-  const heightContainer = useRef(null);
-  const [percentage, setPercentage] = useState(0);
-  const [scrollAmount, setScrollAmount] = useState(0);
-
-  //   const inputRefs = Object.values(registerInputs).map(() => useRef(null));
-
-  useEffect(() => {
-    // inputRefs[0].current?.focus();
-    setScrollAmount(0);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Tab") {
-        setScrollAmount((prev) => prev + heightContainer.current.clientHeight);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  useEffect(() => {
-    let maxHeight =
-      (Icons.length - 1) * (heightContainer.current?.clientHeight || 0);
-    setPercentage((scrollAmount / maxHeight) * 100);
-    heightContainer.current?.scroll({
-      behavior: "smooth",
-      top: scrollAmount,
-    });
-  }, [scrollAmount]);
-
+const QuestionsSlider = ({ Icons }) => {
   return (
-    <div
-      noValidate
-      ref={heightContainer}
-      className={`lg:w-[80%] lg:h-full w-[100vw] h-[100vh] overflow-hidden`}
-    >
-      {Object.entries(home.buttons).map(([key, value], i) => {
+    <div className={`lg:w-full h-full w-[100vw] ${centerItem('justify-evenly')} flex-col overflow-hidden`}>
+      {home.buttons.map((button, i) => {
         let Icon = Icons[i];
         return (
-          <div
-            className={`rotateSpace transition-all min-w-full h-full relative ${centerItem()} flex-col`}
-            key={`registerData${i}`}
-          >
-            <TriangleComp shouldDown={true}>
-              <a
-                onClick={() =>
-                  handleScroll(
-                    setScrollAmount,
-                    heightContainer,
-                    "clientHeight",
-                    "back",
-                    i,
-                    true,
-                    percentage,
-                    true
-                  )
-                }
-                className={`${buttonStyles()} translate-y-[7vh]`}
+          <>
+            <div
+              className={`${
+                bgColorsData[i === 0 ? "PRIMARY" : "SECONDARY"]
+              } border-dashed border-r-dashed transition-all min-w-full h-[45%] relative rounded-r-full ${centerItem()} flex-col`}
+              key={`registerData${i}`}
+            >
+              <MainSquare theKey={button} Icon={Icon} i={i} />
+              <PlanetsComp />
+            </div>
+            {/* {i === 0 && (
+              <h1
+                className={`h-[10%] tracking-widest ${centerItem()} memory text-white text-3xl pr-4 opacity-70 fly`}
               >
-                {/* test */}
-                {/* {Buttons.normalButtons.names[0]} */}
-              </a>
-            </TriangleComp>
-            <MainSquare
-              inputsState={inputsState}
-              theKey={key}
-              value={value}
-              currentData={currentData}
-              requiredInputs={requiredInputs}
-              i={i}
-              Icon={Icon}
-              setInputsState={setInputsState}
-              setCheckBox={setCheckBox}
-              shouldFloat={shouldFloat}
-            />
-            <TriangleComp shouldFloat={shouldFloat} shouldDown={false}>
-              {/* <p>test</p> */}
-            </TriangleComp>
-            <PlanetsComp />
-          </div>
+                <span
+                  className={`text-6xl tShadow_PRIMARY ${textColorsData.SECONDARY} pl-2 underline underline-offset-8`}
+                >
+                  בחרו
+                </span>
+                באופציה...
+              </h1>
+            )} */}
+          </>
         );
       })}
     </div>

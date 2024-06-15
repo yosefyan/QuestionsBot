@@ -5,7 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         "stars-pattern": "url('./src/assets/stars.gif')",
-        "fireworks-pattern": "url('./src/assets/fireworks.gif')",
+        "portal-pattern": "url('./src/assets/portal.gif')",
       },
     },
   },

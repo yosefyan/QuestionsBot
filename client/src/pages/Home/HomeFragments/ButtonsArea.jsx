@@ -1,16 +1,19 @@
 import React from "react";
-import ArrowButton from "../../../components/ArrowButton";
 import QuestionsSlider from "../../../components/QuestionsSlider";
 import * as iconsData from "../../../constants/iconsData";
+import { centerItem } from "../../../utils/utils";
+import Dialog from "../../../components/Dialog";
 
 const ButtonsArea = () => {
+  
   return (
-    <div className={`w-[40%] h-full border`}>
-      <ArrowButton />
+    <div className={`w-[40%] h-full relative ${centerItem()}`}>
+      <div
+        className={`w-full h-full absolute opacity-10`}
+      ></div>
       <QuestionsSlider
-        Icons={[iconsData["FaSearch"], iconsData["AiOutlineOrderedList"]]}
+        Icons={[iconsData["MdChecklistRtl"], iconsData["FaSearch"]]}
       />
-      <ArrowButton />
     </div>
   );
 };
