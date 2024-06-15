@@ -266,13 +266,13 @@
 }
 
 .rotate1 {
-  transform: rotateX(20deg) rotateZ(-20deg);
+  transform: rotateX(20deg) rotateZ(-5deg);
   box-shadow: -1.5rem 2rem 1rem rgba(0, 0, 0, 0.7411764706);
 }
 
 .rotate2 {
-  transform: rotateX(-20deg) rotateZ(20deg);
-  box-shadow: 1.5rem 2rem 1rem rgba(0, 0, 0, 0.7411764706);
+  transform: rotateX(-20deg) rotateZ(5deg);
+  box-shadow: 0rem 2rem 1rem rgba(0, 0, 0, 0.7411764706);
 }
 
 .spotlight::before {

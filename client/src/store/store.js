@@ -1,5 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
+import dialogsReducer from "./Dialogs/reducers/dialogsReducer";
 
 export default configureStore({
-  reducer: {},
-})
+  reducer: { dialogsReducer },
+});

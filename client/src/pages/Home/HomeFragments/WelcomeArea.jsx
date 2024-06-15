@@ -6,6 +6,7 @@ import GlowingText from "../../../components/GlowingText";
 import GlitchedText from "../../../components/GlitchedText";
 import tikshuv from "../../../assets/tikshuv.svg";
 import zroaaYabasha from "../../../assets/zroaaYabasha.svg";
+import { bgColorsData } from "../../../constants/colorsData";
 
 const WelcomeArea = () => {
   return (
@@ -46,7 +47,7 @@ const WelcomeArea = () => {
                 className={`text-white opacity-50 w-full ${
                   Key === "h3"
                     ? "tShadow_PRIMARY"
-                    : "bg-gray-500/30 rounded-full tShadow_SECONDARY"
+                    : `shadow-[0_-.7rem_1rem_rgb(59,130,246)] rounded-[50px] tShadow_SECONDARY"`
                 } ${titleStyles(titleSize)}`}
               >
                 {Key === "h1" ? (

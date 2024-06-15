@@ -7,9 +7,10 @@ import Dialog from "../../components/Dialog";
 const Home = () => {
   return (
     <div
-      className={`bg-black bg-stars-pattern bg-[length:100%_100%] h-[100vh] ${centerItem()}`}
+      className={`bg-black  h-[100vh] ${centerItem()}`}
     >
-      <Dialog></Dialog>
+      <div className="w-full h-full absolute opacity-10 bg-portal-pattern bg-[length:100%_100%]"></div>
+      <Dialog>hi</Dialog>
       <WelcomeArea />
       <ButtonsArea />
     </div>

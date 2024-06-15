@@ -4,7 +4,7 @@ import { centerItem, gradient, iconStyles, titleStyles } from "../utils/utils";
 const MainSquare = ({ Icon, theKey, i }) => {
   return (
     <div
-      className={`lg:w-[60%] cursor-pointer hover:scale-[.95] transition-all text-3xl h-[70%] text-white/50 ${
+      className={`lg:w-[70%] cursor-pointer hover:scale-[.95] transition-all text-3xl h-[70%] text-white/50 ${
         i === 0 ? "-skew-y-6" : "skew-y-6"
       } shadow-xl shadow-white/20 ${gradient(
         false,
@@ -22,7 +22,7 @@ const MainSquare = ({ Icon, theKey, i }) => {
       <p
         className={`w-full tShadow_SECONDARY h-[30%] ${centerItem()} ${
           bgColorsData[i === 0 ? "PRIMARY" : "SECONDARY"]
-        } ${titleStyles("text-[5vmin]")}`}
+        } ${titleStyles("text-[4vmin]")}`}
       >
         {theKey}
       </p>

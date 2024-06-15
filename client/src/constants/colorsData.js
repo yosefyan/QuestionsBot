@@ -4,8 +4,8 @@ const textColorsData = {
 };
 
 const bgColorsData = {
-  PRIMARY: "bg-blue-500/20",
-  SECONDARY: "bg-orange-500/20",
+  PRIMARY: "bg-blue-500/15",
+  SECONDARY: "bg-orange-500/15",
 };
 
 const gradientColorsData = {
