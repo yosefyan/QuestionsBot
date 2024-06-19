@@ -1,5 +1,5 @@
 .rotateSpace {
-  animation: rotateSpace 15s ease-in-out infinite;
+  animation: rotateSpace 25s ease-in-out infinite;
 }
 
 .slowerAnimation {
@@ -58,7 +58,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(1vh);
+    transform: translateY(-0.5vh);
   }
   100% {
     transform: translateY(0);
@@ -70,13 +70,13 @@
 }
 @keyframes downUp {
   0% {
-    transform: translateY(1vh);
+    transform: translateY(0.2vh);
   }
   50% {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(1vh);
+    transform: translateY(0.2vh);
   }
 }
 

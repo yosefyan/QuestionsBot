@@ -2,7 +2,6 @@ import React from "react";
 import QuestionsSlider from "../../../components/QuestionsSlider";
 import * as iconsData from "../../../constants/iconsData";
 import { centerItem } from "../../../utils/utils";
-import Dialog from "../../../components/Dialog";
 
 const ButtonsArea = () => {
   

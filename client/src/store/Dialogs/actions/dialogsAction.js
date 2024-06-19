@@ -1,7 +1,8 @@
-export const openDialog = (whichDialog) => ({
+export const openDialog = (whichDialog, neededDialogIndex) => ({
   type: "OPEN_DIALOG",
   payload: {
     whichDialog,
+    neededDialogIndex
   },
 });
 

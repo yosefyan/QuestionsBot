@@ -1,5 +1,6 @@
 const dialogState = {
   regularDialog: {
+    neededDialogIndex: 0,
     shouldOpen: false,
   },
   areYouSureDialog: {
@@ -8,25 +9,32 @@ const dialogState = {
 };
 
 const dialogsReducer = (state = dialogState, action) => {
-  const { whichDialog } = action.payload || "";
+  const objShouldOpenFalse = { shouldOpen: false };
+  const putMatchingObject = (neededString) => {
+    return neededString === "regularDialog"
+      ? { ...objShouldOpenFalse, neededDialogIndex }
+      : objShouldOpenFalse;
+  };
+  const { whichDialog, neededDialogIndex } = action.payload || "";
   switch (action.type) {
     case "OPEN_DIALOG":
       return {
         ...state,
         [whichDialog]: {
+          neededDialogIndex,
           shouldOpen: true,
         },
       };
     case "CLOSE_DIALOG":
       if (whichDialog === "ALL") {
         return Object.keys(state).reduce((newState, innerKey) => {
-          newState[innerKey] = { shouldOpen: false };
+          newState[innerKey] = putMatchingObject(innerKey);
           return newState;
         }, {});
       } else if (state[whichDialog]) {
         return {
           ...state,
-          [whichDialog]: { shouldOpen: false },
+          [whichDialog]: putMatchingObject(state[whichDialog]),
         };
       } else {
         return state;
