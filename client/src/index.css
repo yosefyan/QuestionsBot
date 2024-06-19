@@ -286,6 +286,29 @@
   position: absolute;
 }
 
+.eyesClosingOpening {
+  border: 0 solid black;
+  animation: eyesClosingOpening 2s ease-in-out infinite;
+}
+
+@keyframes eyesClosingOpening {
+  0% {
+    border-top: 0 solid black;
+    border-bottom: 0 solid black;
+    filter: blur(0) drop-shadow(0, 0, 1rem, rgba(255, 255, 255, 0.5411764706));
+  }
+  50% {
+    border-top: 1.5rem solid black;
+    border-bottom: 1.5rem solid black;
+    font-size: 0rem;
+    filter: blur(0.5rem);
+  }
+  100% {
+    border-top: 0 solid black;
+    border-bottom: 0 solid black;
+    filter: blur(0) drop-shadow(0, 0, 1rem, rgba(255, 255, 255, 0.5411764706));
+  }
+}
 body {
   direction: rtl;
   font-family: "Rubik Glitch", system-ui;

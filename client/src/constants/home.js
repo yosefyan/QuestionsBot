@@ -2,11 +2,16 @@ import ReadyQuestions from "../pages/Home/ButtonTypes/ReadyQuestions";
 import AskQuestion from "../pages/Home/ButtonTypes/AskQuestion";
 
 const home = {
+  navBar: ["FaQuestion", "IoMdSettings"],
   titles: {
     h3: `צוות מנו"ר, איך אפשר`,
     h1: "לעזור?",
   },
-  buttons: ["שאלות מוכנות", "שאילת שאלה"],
+  genericButtons: {
+    titles: ["שאלו אותי שאלה", "ניהול קבצים"],
+    icons: ["FaWandMagicSparkles", "FaUpload"],
+  },
+  questionsButtons: ["שאלות מוכנות", "שאילת שאלה"],
   lines: Array(8).fill(""),
   correspondingDialog: [ReadyQuestions, AskQuestion],
   circles: {
