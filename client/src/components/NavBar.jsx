@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { centerItem } from "../utils/utils";
+import { centerItem, titleStyles } from "../utils/utils";
 import home from "../constants/home";
 import * as iconsData from "../constants/iconsData";
 import IconComponent from "./IconComponent";
-import { bgColorsData } from "../constants/colorsData";
-import BlinkingEye from "./effectsComponents/BlinkingEffect";
-import { useNavigate } from "react-router-dom";
+import { bgColorsData, textColorsData } from "../constants/colorsData";
+import { useNavigate, NavLink } from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({ routeData, data, shouldVertical, shouldAnimate = false }) => {
   const navigate = useNavigate();
   const [shouldCloseEyes, setShouldCloseEyes] = useState(false);
+  const [toggleNav, setToggleNav] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,29 +22,63 @@ const NavBar = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <ul
-      className={`w-[70%] h-[10%] ${centerItem(
-        "justify-evenly"
-      )} gap-4 rounded-full`}
+    <div
+      className={`${centerItem("")} ${
+        shouldVertical
+          ? `${
+              toggleNav ? "w-[20%]" : "w-[10%]"
+            } transition-all h-full ${bgColorsData.PRIMARY}`
+          : "w-[90%] h-[10%] rounded-full"
+      }`}
     >
-      {home.navBar.map((nav, i) => {
-        return (
-          <li
-            onClick={() => navigate(i === 0 && "/faq")}
-            className={`cursor-pointer w-full ${
-              shouldCloseEyes ? "eyesClosingOpening" : ""
-            }  ${centerItem()} drop-shadow-[0_0_1rem_#ffffff8a] h-full ${
-              i === 0 ? "skew-y-6" : "-skew-y-6"
-            } rounded-full ${
-              bgColorsData.SECONDARY
-            } hover:bg-gray-500/20 transition-all p-3 text-4xl text-white/40`}
-            key={`navBar${i}`}
-          >
-            <IconComponent Icon={iconsData[nav]} />
-          </li>
-        );
-      })}
-    </ul>
+      <div className="w-full h-full">
+        {data.map((nav, i) => (
+          <NavLink to={routeData[i]} key={`navLink${i}`}>
+            {({ isActive }) => (
+              <li
+                className={`cursor-pointer ${
+                  shouldCloseEyes && shouldAnimate ? "eyesClosingOpening" : ""
+                } ${centerItem()} ${
+                  isActive ? "bg-green-500/20" : ""
+                } drop-shadow-[0_0_1rem_#ffffff8a] ${
+                  shouldVertical
+                    ? `w-full h-1/4 gap-4 flex-col ${
+                        i !== data.length - 1
+                          ? "border-b border-b-8 border-b-orange-500/20"
+                          : ""
+                      }`
+                    : `w-full h-full rounded-full ${bgColorsData.SECONDARY}`
+                } ${
+                  i % 2 === 0 ? "skew-y-6" : "-skew-y-6"
+                } hover:bg-gray-500/20 transition-all p-3 text-4xl text-white/40`}
+                key={`navBar${i}`}
+              >
+                <IconComponent
+                  classes={`${
+                    textColorsData[i % 2 === 0 ? "PRIMARY" : "SECONDARY"]
+                  }`}
+                  Icon={iconsData[nav]}
+                />
+                {toggleNav && (
+                  <p className={`w-[50%] ${titleStyles("text-2xl")}`}>
+                    {home.navBar.restTitles[i]}
+                  </p>
+                )}
+              </li>
+            )}
+          </NavLink>
+        ))}
+      </div>
+      <div
+        onClick={() => setToggleNav((prev) => !prev)}
+        className={`w-[25%] h-full bg-blue-500/20 cursor-pointer hover:bg-blue-500/10 transition-all rounded-l-full ${centerItem()}`}
+      >
+        <IconComponent
+          classes={`text-3xl text-white/70`}
+          Icon={iconsData["MdKeyboardArrowLeft"]}
+        />
+      </div>
+    </div>
   );
 };
 

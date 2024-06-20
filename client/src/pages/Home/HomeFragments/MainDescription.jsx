@@ -17,11 +17,16 @@ const MainDescription = () => {
         "justify-evenly"
       )} flex-col gap-4`}
     >
-      <NavBar />
+      <NavBar
+        routeData={home.navigateRoutes.home}
+        data={home.navBar}
+        shouldVertical={false}
+        shouldAnimate
+      />
       <FadingEffect side={`translateY`} distance={`-5vh`}>
         <h1
           className={`${titleStyles(
-            "text-5xl xl:text-8xl"
+            "text-5xl xl:text-6xl"
           )} py-4 text-white/40 text-start animate-pulse`}
         >
           מנו"רובוט
@@ -43,11 +48,10 @@ const MainDescription = () => {
           typeSpeed={200}
           backSpeed={100}
           strings={[
-            "היכולת לחקור גם מעבר.",
-            "היכולת להסיק מסקנות מדוייקות.",
-            "היכולת להתייעל בצורה המהירה ביותר.",
-            "היכולת להתאים את המצב לפי צורכי הצבא.",
-            "היכולת לספק תמיכה מקיפה סביב השעון, גם במצבי חירום.",
+            "היכולת לחקור.",
+            "היכולת ללמוד.",
+            "היכולת להתייעל.",
+            "היכולת לעזור. ",
           ]}
         />
       </FadingEffect>

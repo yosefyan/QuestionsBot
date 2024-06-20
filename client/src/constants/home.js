@@ -1,15 +1,25 @@
 import ReadyQuestions from "../pages/Home/ButtonTypes/ReadyQuestions";
 import AskQuestion from "../pages/Home/ButtonTypes/AskQuestion";
 
+const repNavBarData = ["FaQuestion", "IoMdSettings"];
+
 const home = {
-  navBar: ["FaQuestion", "IoMdSettings"],
+  navBar: {
+    home: [...repNavBarData],
+    rest: ["MdContactSupport", "TbFileSettings", ...repNavBarData],
+    restTitles: ["שאלו שאלה", "ניהול קבצים", "שאלות נפוצות", "הגדרות"],
+  },
+  navigateRoutes: {
+    home: ["/faq"],
+    rest: ["/question", "/file", "/faq", "/settings"],
+  },
   titles: {
     h3: `צוות מנו"ר, איך אפשר`,
     h1: "לעזור?",
   },
   genericButtons: {
-    titles: ["שאלו אותי שאלה", "ניהול קבצים"],
-    icons: ["FaWandMagicSparkles", "FaUpload"],
+    titles: ["שאלו שאלה", "ניהול קבצים"],
+    icons: ["FaWandMagicSparkles", "TbFileSettings"],
   },
   questionsButtons: ["שאלות מוכנות", "שאילת שאלה"],
   lines: Array(8).fill(""),

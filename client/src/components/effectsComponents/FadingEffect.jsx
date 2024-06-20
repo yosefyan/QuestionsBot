@@ -1,5 +1,6 @@
 import React from "react";
 import { useSpring, animated } from "@react-spring/web";
+import { centerItem } from "../../utils/utils";
 
 const FadingEffect = ({ color, children, side, distance }) => {
   const props = useSpring({
@@ -9,7 +10,7 @@ const FadingEffect = ({ color, children, side, distance }) => {
   });
 
   return (
-    <animated.div className={`w-[70%] ${color | ""}`} style={props}>
+    <animated.div className={`w-full ${centerItem()} flex-col ${color | ""}`} style={props}>
       {children}
     </animated.div>
   );

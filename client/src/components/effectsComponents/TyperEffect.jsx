@@ -3,7 +3,7 @@ import { ReactTyped } from "react-typed";
 import { titleStyles } from "../../utils/utils";
 import { textColorsData } from "../../constants/colorsData";
 
-const LoopingTypedText = ({
+const TyperEffect = ({
   strings,
   typeSpeed,
   backSpeed,
@@ -31,4 +31,4 @@ const LoopingTypedText = ({
   );
 };
 
-export default LoopingTypedText;
+export default TyperEffect;
