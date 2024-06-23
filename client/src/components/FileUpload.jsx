@@ -21,12 +21,16 @@ const FileUpload = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("http://localhost:5174/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
+      const response = await axios.post(
+        "http://localhost:5174/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("response sentence", response.data);
       setSentences(response.data.sentences);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -45,7 +49,9 @@ const FileUpload = () => {
             "text-2xl"
           )}`}
         />
-        <button className="text-white" type="submit">Upload</button>
+        <button className="text-white" type="submit">
+          Upload
+        </button>
       </form>
     </>
   );

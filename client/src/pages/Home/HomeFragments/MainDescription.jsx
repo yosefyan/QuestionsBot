@@ -38,7 +38,7 @@ const MainDescription = () => {
         distance={`5vh`}
       >
         <h2
-          className={`${titleStyles("text-4xl")} py-4 text-start ${
+          className={`${titleStyles("text-4xl")} bg-gray-500/20 py-4 text-start ${
             textColorsData.PRIMARY
           }`}
         >
@@ -59,7 +59,7 @@ const MainDescription = () => {
         {home.genericButtons.titles.map((button, i) => {
           return (
             <button
-              onClick={() => navigate(i === 0 ? "/question" : "/folder")}
+              onClick={() => navigate(i === 0 ? "/question" : "/file")}
               className={`w-[45%] h-[70%] ${centerItem()} flex-col gap-4 p-4 rounded-[20px] hover:scale-95 transition-all ${titleStyles(
                 "text-[1.2rem]"
               )} shadow-lg shadow-white/35 hover:bg-gray-500/20 hover:shadow-white/0 transiton-all`}
