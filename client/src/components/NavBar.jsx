@@ -25,59 +25,62 @@ const NavBar = ({ routeData, data, shouldVertical, shouldAnimate = false }) => {
     <div
       className={`${centerItem("")} ${
         shouldVertical
-          ? `${
-              toggleNav ? "w-[20%]" : "w-[10%]"
-            } transition-all h-full ${bgColorsData.PRIMARY}`
+          ? `${toggleNav ? "w-[20%]" : "w-[10%]"} h-full sticky top-0 transition-all ${
+              bgColorsData.PRIMARY
+            }`
           : "w-[90%] h-[10%] rounded-full"
       }`}
     >
-      <div className="w-full h-full">
-        {data.map((nav, i) => (
-          <NavLink to={routeData[i]} key={`navLink${i}`}>
-            {({ isActive }) => (
-              <li
-                className={`cursor-pointer ${
-                  shouldCloseEyes && shouldAnimate ? "eyesClosingOpening" : ""
-                } ${centerItem()} ${
-                  isActive ? "bg-green-500/20" : ""
-                } drop-shadow-[0_0_1rem_#ffffff8a] ${
-                  shouldVertical
-                    ? `w-full h-1/4 gap-4 flex-col ${
-                        i !== data.length - 1
-                          ? "border-b border-b-8 border-b-orange-500/20"
-                          : ""
-                      }`
-                    : `w-full h-full rounded-full ${bgColorsData.SECONDARY}`
-                } ${
-                  i % 2 === 0 ? "skew-y-6" : "-skew-y-6"
-                } hover:bg-gray-500/20 transition-all p-3 text-4xl text-white/40`}
-                key={`navBar${i}`}
-              >
-                <IconComponent
-                  classes={`${
-                    textColorsData[i % 2 === 0 ? "PRIMARY" : "SECONDARY"]
-                  }`}
-                  Icon={iconsData[nav]}
-                />
-                {toggleNav && (
-                  <p className={`w-[50%] ${titleStyles("text-2xl")}`}>
-                    {home.navBar.restTitles[i]}
-                  </p>
-                )}
-              </li>
-            )}
-          </NavLink>
-        ))}
+      <div className={` w-full h-full`}>
+        {data.length > 0 &&
+          data.map((nav, i) => (
+            <NavLink to={routeData[i]} key={`navLink${i}`}>
+              {({ isActive }) => (
+                <li
+                  className={`cursor-pointer ${
+                    shouldCloseEyes && shouldAnimate ? "eyesClosingOpening" : ""
+                  } ${centerItem()} ${
+                    isActive ? "bg-green-500/20" : ""
+                  } drop-shadow-[0_0_1rem_#ffffff8a] ${
+                    shouldVertical
+                      ? `w-full h-[24%] gap-4 flex-col ${
+                          i !== data.length - 1
+                            ? "border-b border-b-2 border-b-orange-500/20"
+                            : ""
+                        }`
+                      : `w-full h-full rounded-full ${bgColorsData.SECONDARY}`
+                  } ${
+                    i % 2 === 0 ? "skew-y-6" : "-skew-y-6"
+                  } hover:bg-gray-500/20 transition-all p-3 text-4xl text-white/40`}
+                  key={`navBar${i}`}
+                >
+                  <IconComponent
+                    classes={`${
+                      textColorsData[i % 2 === 0 ? "PRIMARY" : "SECONDARY"]
+                    }`}
+                    Icon={iconsData[nav]}
+                  />
+                  {toggleNav && (
+                    <p className={`w-[50%] ${titleStyles("text-2xl")}`}>
+                      {home.navBar.restTitles[i]}
+                    </p>
+                  )}
+                </li>
+              )}
+            </NavLink>
+          ))}
       </div>
-      <div
-        onClick={() => setToggleNav((prev) => !prev)}
-        className={`w-[25%] h-full bg-blue-500/20 cursor-pointer hover:bg-blue-500/10 transition-all rounded-l-full ${centerItem()}`}
-      >
-        <IconComponent
-          classes={`text-3xl text-white/70`}
-          Icon={iconsData["MdKeyboardArrowLeft"]}
-        />
-      </div>
+      {shouldVertical && (
+        <div
+          onClick={() => setToggleNav((prev) => !prev)}
+          className={`w-[25%] h-full bg-blue-500/20 cursor-pointer hover:bg-blue-500/10 transition-all rounded-l-full ${centerItem()}`}
+        >
+          <IconComponent
+            classes={`text-3xl text-white/70`}
+            Icon={iconsData["MdKeyboardArrowLeft"]}
+          />
+        </div>
+      )}
     </div>
   );
 };

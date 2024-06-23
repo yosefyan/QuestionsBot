@@ -64,7 +64,7 @@ const Question = () => {
           ],
         }));
       setShouldScroll((prev) => !prev);
-    }, 2500);
+    }, 3000);
   };
 
   return (
@@ -75,7 +75,7 @@ const Question = () => {
         shouldVertical
       />
       <div
-        className={`w-[40%] h-full overflow-y-scroll ${centerItem(
+        className={`w-[40%] h-full overflow-y-auto ${centerItem(
           "justify-start"
         )} flex-col`}
       >

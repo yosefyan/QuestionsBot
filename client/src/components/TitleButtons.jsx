@@ -3,7 +3,9 @@ import { centerItem, titleStyles } from "../utils/utils";
 import { bgColorsData, textColorsData } from "../constants/colorsData";
 import IconComponent from "./IconComponent";
 import * as iconsData from "../constants/iconsData";
-import file from "../constants/file";
+import { ReactTyped } from "react-typed";
+import FileUpload from "./FileUpload";
+import axios from "axios";
 
 const TitleButtons = ({
   handleNeedGenerated,
@@ -15,10 +17,18 @@ const TitleButtons = ({
   shouldInput = false,
   shouldEdit = false,
 }) => {
-  const handleButtons = (buttonName, subject, i) => {
-    handleNeedGenerated(buttonName, subject, i);
-  };
   const [inpValue, setInpValue] = useState("");
+  const handleButtons = async (buttonName, subject, i) => {
+    handleNeedGenerated(buttonName, subject, i);
+    try {
+      const response = await axios.post("http://localhost:5174/question", {
+        question: inpValue,
+      });
+      console.log("response", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className={`w-full h-fit ${centerItem(
@@ -40,18 +50,21 @@ const TitleButtons = ({
         </h3>
       </div>
       <div
-        className={`${centerItem("", "items-start")} w-full ${
-          shouldEdit ? "grid-cols-1 justify-items-center" : ""
-        } ${
-          shouldInput ? `${centerItem()} flex-col` : "grid grid-cols-3"
+        className={`${centerItem()} w-full ${!shouldEdit ? "" : "flex-col"} ${
+          shouldInput
+            ? `${centerItem()} flex-col`
+            : shouldEdit
+            ? ""
+            : "grid grid-cols-3"
         } p-4 gap-4`}
+        f
       >
         {shouldInput ? (
           <>
-            <input
+            <textarea
               required
               placeholder="כתבו כאן את שאלתכם..."
-              className={`w-full focus:outline-none ${textColorsData.SECONDARY} bg-transparent border-b border-b-8 border-b-blue-500/35`}
+              className={`w-full focus:outline-none rounded-[20px] bg-gray-500/15 p-4 ${textColorsData.SECONDARY} bg-transparent border-b border-b-8 border-b-blue-500/35`}
               value={inpValue}
               onChange={({ target }) => setInpValue(target.value)}
               type="text"
@@ -73,15 +86,9 @@ const TitleButtons = ({
           <>
             {shouldEdit && (
               <>
-              <p className={`w-[70%] text-white/50`}>סה"כ קבצים: </p>
-              <button
-                className={`${centerItem()} gap-4 w-[70%] p-4 rounded-[20px] bg-green-500/50 text-white/40 hover:scale-95 transition-all ${titleStyles(
-                  "text-2xl"
-                )}`}
-              >
-                הוסיפו קובץ
+                <FileUpload />
+
                 <IconComponent Icon={iconsData["IoIosAddCircle"]} />
-              </button>
               </>
             )}
             {buttons.map((button, i) => {
@@ -109,7 +116,11 @@ const TitleButtons = ({
                         Icon={iconsData["FaFileAlt"]}
                       />
                     )}
-                    <span className={`flex-1 text-start`}>{button}</span>
+                    <ReactTyped
+                      className={`flex-1 text-start`}
+                      strings={[button]}
+                      typeSpeed={50}
+                    />
                     {shouldEdit && (
                       <IconComponent
                         classes={`hover:bg-gray-500/20 text-2xl text-red-500/50 transition-all p-2 cursor-pointer rounded-full`}

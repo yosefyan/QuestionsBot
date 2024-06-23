@@ -2,8 +2,6 @@ import React from "react";
 import home from "../../constants/home";
 import GetRandomSoftColor from "../effectsComponents/GetRandomSoftColor";
 import { centerItem, titleStyles } from "../../utils/utils";
-import IconComponent from "../../components/IconComponent";
-import * as iconsData from "../../constants/iconsData";
 import { textColorsData } from "../../constants/colorsData";
 
 const QuestionsSelector = ({

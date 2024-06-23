@@ -3,10 +3,13 @@ import { centerItem } from "../../utils/utils";
 import NavBar from "../../components/NavBar";
 import home from "../../constants/home";
 import TitleButtons from "../../components/TitleButtons";
+import TitleAnswer from "../../components/TitleAnswer";
+import faq from "../../constants/faq";
+import { ReactTyped } from "react-typed";
 
 const Faq = () => {
   return (
-    <div className={`bg-black w-full h-[100vh] ${centerItem()}`}>
+    <div className={`bg-black w-full h-[100vh] overflow-y-scroll ${centerItem()}`}>
       <NavBar
         routeData={home.navigateRoutes.rest}
         data={home.navBar.rest}
@@ -20,6 +23,13 @@ const Faq = () => {
           buttons={[]}
           subText={"כאן תוכלו לקבל מענה עבור שאלות נפוצות אודות הבוט."}
         />
+        {faq.answersQuestions.map((aq, i) => {
+          return (
+            <React.Fragment key={`faqAnswersQuestions${i}`}>
+              <TitleAnswer title={aq.question} answer={<ReactTyped strings={[aq.answer]} typeSpeed={5} />} />
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );

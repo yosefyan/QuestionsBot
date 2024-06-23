@@ -26,7 +26,7 @@ const MainDescription = () => {
       <FadingEffect side={`translateY`} distance={`-5vh`}>
         <h1
           className={`${titleStyles(
-            "text-5xl xl:text-6xl"
+            "text-5xl xl:text-7xl"
           )} py-4 text-white/40 text-start animate-pulse`}
         >
           מנו"רובוט
