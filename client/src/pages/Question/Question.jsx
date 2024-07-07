@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import { centerItem, titleStyles } from "../../utils/utils";
 import { textColorsData } from "../../constants/colorsData";
 import NavBar from "../../components/NavBar";
 import home from "../../constants/home";
 import TitleButtons from "../../components/TitleButtons";
 import GPTsAnswers from "../../components/questionsComps/GPTsAnswers";
+import AddNewData from "../../components/questionsComps/AddNewData";
 
 const Question = () => {
   const [shouldScroll, setShouldScroll] = useState(false);
+  const [shouldExtend, setShouldExtend] = useState(false);
   const [needGenerated, setNeedGenerated] = useState({
     supportKind: "",
     questions: [],
@@ -20,6 +23,19 @@ const Question = () => {
       },
     ],
   });
+
+  const handleExtendedPart = (bool) => {
+    setShouldExtend(bool);
+  };
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    containerRef.current.scroll({
+      behavior: "smooth",
+      top: containerRef.current.scrollHeight * needGenerated.messages.length,
+    });
+  }, [shouldScroll]);
 
   const handleNeedGenerated = (supportKind, subject, i) => {
     setShouldScroll((prev) => !prev);
@@ -49,6 +65,33 @@ const Question = () => {
     }));
 
     setTimeout(() => {
+      const uploadReadyQuestion = async () => {
+        try {
+          const response = await axios.post(
+            "http://localhost:5174/botQuestion",
+            {
+              question: supportKind,
+            }
+          );
+          supportKind !== "שאלות מוכנות" &&
+            subject !== "נושאי תמיכה" &&
+            supportKind !== "שאילת שאלה" &&
+            setNeedGenerated((prev) => ({
+              ...prev,
+              messages: [
+                ...prev.messages,
+                {
+                  message: response.data.answers || response.data.answer,
+                  isBot: true,
+                },
+              ],
+            }));
+          setShouldScroll((prev) => !prev);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      uploadReadyQuestion();
       home.questionsButtons.includes(supportKind) &&
         setNeedGenerated((prev) => ({
           ...prev,
@@ -68,13 +111,14 @@ const Question = () => {
   };
 
   return (
-    <div className={`bg-black w-full h-[100vh] ${centerItem()}`}>
+    <div className={`bg-black w-full relative h-[100vh] ${centerItem()}`}>
       <NavBar
         routeData={home.navigateRoutes.rest}
         data={home.navBar.rest}
         shouldVertical
       />
       <div
+        ref={containerRef}
         className={`w-[40%] h-full overflow-y-auto ${centerItem(
           "justify-start"
         )} flex-col`}
@@ -99,19 +143,23 @@ const Question = () => {
         needGenerated.subject === "שאלות" ? (
           <>
             <TitleButtons
+              handleExtendedPart={handleExtendedPart}
+              shouldAdd
               needGenerated={needGenerated}
               handleNeedGenerated={handleNeedGenerated}
               title={"נושאי תמיכה"}
-              buttons={home.readyQuestions.categories}
+              buttons={[]}
               icon={"MdOutlineSubject"}
               subText={"בחרו את נושא התמיכה הרצוי."}
             />
             {needGenerated.i && (
               <TitleButtons
+                handleExtendedPart={handleExtendedPart}
+                shouldAdd
                 needGenerated={needGenerated}
                 handleNeedGenerated={handleNeedGenerated}
                 title={"שאלות"}
-                buttons={home.readyQuestions.questions[needGenerated.i]}
+                buttons={[]}
                 icon={"FaQuestion"}
                 subText={`${
                   needGenerated.subject === "נושאי תמיכה"
@@ -137,6 +185,16 @@ const Question = () => {
         )}
       </div>
       <GPTsAnswers shouldScroll={shouldScroll} needGenerated={needGenerated} />
+      {shouldExtend && (
+        <AddNewData
+          title={needGenerated.subject}
+          handleExtendedPart={handleExtendedPart}
+          shouldExtend={shouldExtend}
+          endpoint={
+            needGenerated.subject === "שאלות" ? "question" : "userSubject"
+          }
+        />
+      )}
     </div>
   );
 };

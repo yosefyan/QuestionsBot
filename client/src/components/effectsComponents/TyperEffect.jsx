@@ -21,7 +21,9 @@ const TyperEffect = ({
 
   return (
     <ReactTyped
-      className={`${titleStyles("text-5xl")} ${textColorsData.SECONDARY}`}
+      className={`bg-gray-500/10 rounded-[20px] p-2 ${titleStyles("text-5xl")} ${
+        textColorsData.SECONDARY
+      }`}
       strings={strings}
       typeSpeed={typeSpeed}
       backSpeed={backSpeed}

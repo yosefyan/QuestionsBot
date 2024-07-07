@@ -38,11 +38,15 @@ const MainDescription = () => {
         distance={`5vh`}
       >
         <h2
-          className={`${titleStyles("text-4xl")} bg-gray-500/20 py-4 text-start ${
+          className={`${titleStyles("text-4xl")} py-4 text-start ${
             textColorsData.PRIMARY
           }`}
         >
-          היכולת לדעת,
+          היכולת{" "}
+          <span className="">
+            לדעת
+          </span>
+          ,
         </h2>
         <LoopingTypedText
           typeSpeed={200}

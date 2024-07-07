@@ -4,10 +4,9 @@ import home from "../constants/home";
 import * as iconsData from "../constants/iconsData";
 import IconComponent from "./IconComponent";
 import { bgColorsData, textColorsData } from "../constants/colorsData";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const NavBar = ({ routeData, data, shouldVertical, shouldAnimate = false }) => {
-  const navigate = useNavigate();
   const [shouldCloseEyes, setShouldCloseEyes] = useState(false);
   const [toggleNav, setToggleNav] = useState(false);
 
@@ -15,7 +14,7 @@ const NavBar = ({ routeData, data, shouldVertical, shouldAnimate = false }) => {
     const interval = setInterval(() => {
       setShouldCloseEyes(true);
       setTimeout(() => {
-        setShouldCloseEyes(false);
+        setShouldCloseEyes(falsfe);
       }, 2000);
     }, 25000);
 
@@ -31,13 +30,13 @@ const NavBar = ({ routeData, data, shouldVertical, shouldAnimate = false }) => {
           : "w-[90%] h-[10%] rounded-full"
       }`}
     >
-      <div className={` w-full h-full`}>
+      <div className={`w-full h-full ${centerItem()} flex-col`}>
         {data.length > 0 &&
           data.map((nav, i) => (
-            <NavLink to={routeData[i]} key={`navLink${i}`}>
+            <NavLink className={`w-full h-full`} to={routeData[i]} key={`navLink${i}`}>
               {({ isActive }) => (
                 <li
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer h-full ${
                     shouldCloseEyes && shouldAnimate ? "eyesClosingOpening" : ""
                   } ${centerItem()} ${
                     isActive ? "bg-green-500/20" : ""
@@ -61,7 +60,7 @@ const NavBar = ({ routeData, data, shouldVertical, shouldAnimate = false }) => {
                     Icon={iconsData[nav]}
                   />
                   {toggleNav && (
-                    <p className={`w-[50%] ${titleStyles("text-2xl")}`}>
+                    <p className={`w-full ${titleStyles("text-[1rem]")}`}>
                       {home.navBar.restTitles[i]}
                     </p>
                   )}

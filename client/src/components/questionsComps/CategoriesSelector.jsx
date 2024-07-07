@@ -1,6 +1,4 @@
-import React from "react";
-import { centerItem, titleStyles } from "../../utils/utils";
-import { bgColorsData, textColorsData } from "../../constants/colorsData";
+import React, { useRef } from "react";
 import GetRandomSoftColor from "../effectsComponents/GetRandomSoftColor";
 import home from "../../constants/home";
 
@@ -12,6 +10,7 @@ const CategoriesSelector = ({
   const handleCategories = (i) => {
     handleClickedIndex(i);
   };
+
   return (
     <div
       className={`bg-gray-600/20 ${

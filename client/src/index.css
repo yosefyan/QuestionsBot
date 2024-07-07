@@ -309,7 +309,7 @@
     filter: blur(0) drop-shadow(0, 0, 1rem, rgba(255, 255, 255, 0.5411764706));
   }
 }
-body {
+:root {
   direction: rtl;
   font-family: "Rubik Glitch", system-ui;
   font-weight: 400;

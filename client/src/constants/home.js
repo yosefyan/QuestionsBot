@@ -1,17 +1,17 @@
 import ReadyQuestions from "../pages/Home/ButtonTypes/ReadyQuestions";
 import AskQuestion from "../pages/Home/ButtonTypes/AskQuestion";
 
-const repNavBarData = ["FaQuestion", "IoMdSettings"];
+const repNavBarData = ["FaQuestion"];
 
 const home = {
   navBar: {
     home: [...repNavBarData],
     rest: ["MdContactSupport", "TbFileSettings", ...repNavBarData],
-    restTitles: ["שאלו שאלה", "ניהול קבצים", "שאלות נפוצות", "הגדרות"],
+    restTitles: ["שאלו שאלה", "ניהול קבצים", "שאלות נפוצות"],
   },
   navigateRoutes: {
     home: ["/faq"],
-    rest: ["/question", "/file", "/faq", "/settings"],
+    rest: ["/question", "/file", "/faq"],
   },
   titles: {
     h3: `צוות מנו"ר, איך אפשר`,
@@ -21,7 +21,7 @@ const home = {
     titles: ["שאלו שאלה", "ניהול קבצים"],
     icons: ["FaWandMagicSparkles", "TbFileSettings"],
   },
-  questionsButtons: ["שאלות מוכנות", "שאילת שאלה"],
+  questionsButtons: ["שאילת שאלה"],
   lines: Array(8).fill(""),
   correspondingDialog: [ReadyQuestions, AskQuestion],
   circles: {

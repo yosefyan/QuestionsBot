@@ -3,14 +3,16 @@ import * as url from "url";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import fs from "fs";
-import path, { dirname } from "path";
+import path from "path";
 import nlp from "compromise";
-import { NlpManager } from "node-nlp";
-import SearchIndex from "search-index";
 import pdfParse from "pdf-parse";
-import { parse } from "csv-parse";
+import { parse } from "csv-parse/sync";
 import readXlsxFile from "read-excel-file/node";
 import cors from "cors";
+import Fuse from "fuse.js";
+import mongoose from "mongoose";
+import addQuestion from "./controllers/add/addQuestion.js";
+import addSubject from "./controllers/add/addSubject.js";
 
 const app = express();
 const port = 5174;
@@ -24,79 +26,116 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
-let documents = [];
-const manager = new NlpManager({ languages: ["en"] });
-let index;
+let sentences = [];
 
-async function setupSearchIndex() {
-  index = await SearchIndex({ name: "file-index" });
-}
+const processFiles = async () => {
+  const files = fs.readdirSync(uploadsDir);
 
-setupSearchIndex();
+  for (const fileName of files) {
+    const filePath = path.join(uploadsDir, fileName);
+    let content = "";
 
-// Endpoint to upload and process files
+    if (fileName.endsWith(".csv")) {
+      const csvContent = fs.readFileSync(filePath, "utf8");
+      const data = parse(csvContent, { columns: false, trim: true });
+      content = data.map((row) => row.join(" ")).join(" ");
+    } else if (fileName.endsWith(".pdf")) {
+      const pdfContent = await pdfParse(fs.readFileSync(filePath), {
+        encoding: "utf8",
+      });
+      content = pdfContent.text;
+    } else if (fileName.endsWith(".xlsx") || fileName.endsWith(".xls")) {
+      const rows = await readXlsxFile(fs.createReadStream(filePath));
+      content = rows.map((row) => row.join(" ")).join(" ");
+    } else {
+      content = fs.readFileSync(filePath, "utf8");
+    }
+    const doc = nlp(content);
+    sentences.push(...doc.sentences().out("array"));
+  }
+};
+
+processFiles().catch((err) => {
+  console.error("שגיאה לאחר קריאת הקבצים", err);
+});
+
 app.post("/upload", async (req, res) => {
   const file = req.files.file;
   const filePath = path.join(uploadsDir, file.name);
 
-  // Save the file
   fs.writeFileSync(filePath, file.data);
 
-  let content = "";
+  await processFiles();
 
-  // Determine the file type and parse accordingly
-  if (file.mimetype === "text/csv") {
-    content = fs.readFileSync(filePath, "utf8");
-    parse(content, (err, data) => {
-      if (err) throw err;
-      content = data.map((row) => row.join(" ")).join(" ");
-    });
-  } else if (file.mimetype === "application/pdf") {
-    content = await pdfParse(fs.readFileSync(filePath)).then(
-      (data) => data.text
-    );
-  } else if (file.mimetype.includes("excel")) {
-    await readXlsxFile(fs.createReadStream(filePath)).then((rows) => {
-      content = rows.map((row) => row.join(" ")).join(" ");
-    });
+  res.json({ message: "הקובץ הועלה ונסרק בהצלחה!" });
+});
+
+app.post("/userQuestion", addQuestion);
+app.post("/userSubject", addSubject);
+
+app.post("/botQuestion", (req, res) => {
+  const question = req.body.question.toLowerCase();
+  const doc = nlp(question);
+
+  const stopwords = new Set(["the", "a", "an", "is", "in", "on"]);
+
+  const words = doc
+    .text()
+    .split(/\s+/)
+    .filter((word) => !stopwords.has(word.toLowerCase()));
+
+  const foundSentences = findAnswer(words, sentences);
+  console.log("found", foundSentences);
+  if (foundSentences.length > 0) {
+    res.json({ answers: foundSentences });
   } else {
-    // Assume plain text
-    content = fs.readFileSync(filePath, "utf8");
+    res.json({ answer: "הבוט סרק את כל הקבצים ולא מצא תשובה." });
   }
-
-  // Analyze the content
-  const doc = nlp(content);
-  const sentences = doc.sentences().out("array");
-
-  // Add document to index and memory
-  const document = { id: file.name, content: sentences.join(" ") };
-  documents.push(document);
-  await index.PUT([document]);
-
-  res.json({ sentences });
 });
 
-// Endpoint to answer questions based on uploaded files
-app.post("/question", async (req, res) => {
-  const question = req.body.question;
-  const results = await index.QUERY({ AND: question.split(" ") });
-  console.log("results server", results);
-  if (results.RESULT_LENGTH === 0) {
-    res.json({ answer: "No relevant information found." });
-    return;
-  }
-
-  const bestMatch = results[0] || results.RESULT;
-  const content = bestMatch.document.content;
-
-  manager.addDocument("en", question, "best.answer");
-  manager.addAnswer("en", "best.answer", content);
-  await manager.train();
-  const response = await manager.process("en", question);
-
-  res.json({ answer: response.answer });
+app.get("/files", (req, res) => {
+  fs.readdir(uploadsDir, (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to list files" });
+    }
+    res.json(files);
+  });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.delete("/files/:fileName", (req, res) => {
+  const filePath = path.join(uploadsDir, req.params.fileName);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to delete file" });
+    }
+    res.json({ deletedFile: req.params.fileName });
+  });
 });
+
+const findAnswer = (words, sentences) => {
+  const options = {
+    keys: ["sentence"],
+    includeMatches: true,
+    threshold: 0.5,
+  };
+
+  const fuse = new Fuse(sentences, options);
+  const searchResults = fuse.search(words.join(" "));
+
+  const matchingSentences = searchResults.map((result) => result.item);
+  const uniqueMatches = [...new Set(matchingSentences)];
+  return uniqueMatches;
+};
+
+const connectDBServer = async () => {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/");
+    app.listen(port, () => {
+      console.log(`DB - Connected`);
+      console.log(`Server - Running | Port: ${port}`);
+    });
+  } catch (error) {}
+};
+
+connectDBServer();

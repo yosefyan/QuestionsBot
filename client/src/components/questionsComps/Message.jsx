@@ -7,7 +7,7 @@ import IconComponent from "../IconComponent";
 const Message = ({ message, isBot }) => {
   const shouldReverse = [
     <p
-      className={`w-[90%]  flex-col p-4 rounded-[20px] text-white/60 ${
+      className={`w-[90%] flex-col p-4 rounded-[20px] text-white/60 ${
         isBot
           ? `rounded-tl-[5px] text-end ${bgColorsData.SECONDARY}`
           : `rounded-tr-[5px] text-start ${bgColorsData.PRIMARY}`
@@ -30,7 +30,7 @@ const Message = ({ message, isBot }) => {
         "items-start"
       )} gap-2`}
     >
-      {!isBot ? shouldReverse.reverse() : shouldReverse}
+      {message ? (!isBot ? shouldReverse.reverse() : shouldReverse) : ""}
     </div>
   );
 };

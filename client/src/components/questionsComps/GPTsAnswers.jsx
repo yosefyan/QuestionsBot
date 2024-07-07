@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { gradientColorsData } from "../../constants/colorsData";
 import { gradient } from "../../utils/utils";
 import Message from "./Message";
-import { ReactTyped } from "react-typed";
 
 const GPTsAnswers = ({ shouldScroll, needGenerated }) => {
   const containerRef = useRef(null);
@@ -17,21 +16,31 @@ const GPTsAnswers = ({ shouldScroll, needGenerated }) => {
   return (
     <div
       ref={containerRef}
-      className={`w-1/2 h-full p-4 overflow-y-auto drop-shadow-[0_0_1rem_gray] ${gradient(
+      className={`w-1/2 h-full p-4 overflow-y-scroll drop-shadow-[0_0_1rem_gray] ${gradient(
         false,
         gradientColorsData.PRIMARY
       )}`}
     >
-      {needGenerated.messages.map((data, index) => {
-        return (
-          <div key={index}>
-            <Message
-              isBot={data.isBot}
-              message={<ReactTyped strings={[data.message]} typeSpeed={15} />}
-            />
-          </div>
-        );
-      })}
+      {needGenerated.messages.map((data, index) => (
+        <>
+          {Array.isArray(data.message) && (
+            <p className="text-white/70 w-full text-center">
+              הבוט מצא כ-{data.message.length} תוצאות רלוונטיות.
+            </p>
+          )}
+          {Array.isArray(data.message) ? (
+            data.message.map((msg, idx) => (
+              <Message
+                key={idx}
+                isBot={data.isBot}
+                message={msg || "הבוט סרק את כל הקבצים ולא מצא תשובה."}
+              />
+            ))
+          ) : (
+            <Message key={index} isBot={data.isBot} message={data.message} />
+          )}
+        </>
+      ))}
     </div>
   );
 };
